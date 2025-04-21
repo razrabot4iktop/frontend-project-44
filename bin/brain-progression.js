@@ -28,23 +28,40 @@ const showCongratulations = (userName) => {
 const rounds = 3;
 
 // logic
-const isEven = (number) => number % 2 === 0;
+const generateProgression = () => {
+	const length = getRandomNumber(5, 10);
+	const start = getRandomNumber(1, 30);
+	const step = getRandomNumber(1, 10);
+	const hiddenStep = getRandomNumber(0, length - 1);
+
+	const progression = [];
+	for (let i = 0; i < length; i++) {
+		progression.push(start + i * step);
+	}
+
+	const correctAnswer = progression[hiddenStep];
+	progression[hiddenStep] = '..';
+
+	return {
+		question: progression.join(' '),
+		correctAnswer,
+	};
+};
 
 // game
-const evenGame = () => {
-	console.log('Answer "yes" if the number is even, otherwise answer "no".');
+const progressionGame = () => {
+	console.log('What number is missing in the progression?');
 	for (let i = 0; i < rounds; i++) {
-		const number = getRandomNumber(1, 100);
+		const { question, correctAnswer } = generateProgression();
 
-		console.log(`Question: ${number}`);
-		const correctAnswer = isEven(number) ? 'yes' : 'no';
+		console.log(`Question: ${question}`);
 		const userAnswer = readlineSync.question('Your answer: ');
 
-		if (userAnswer !== correctAnswer) {
+		if (userAnswer !== correctAnswer.toString()) {
 			return showWrongAnswer(userAnswer, correctAnswer);
 		}
 		showCorrectAnswer();
 	}
 	return showCongratulations(userName);
 };
-evenGame();
+progressionGame();

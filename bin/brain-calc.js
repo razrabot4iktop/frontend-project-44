@@ -7,23 +7,6 @@ console.log('Welcome to the Brain Games!');
 const userName = readlineSync.question('May I have your name? ');
 console.log(`Hello, ${userName}!`);
 
-// logic
-const calculator = (firstNum, operand, secondNum) => {
-	switch (operand) {
-		case '+':
-			return firstNum + secondNum;
-		case '-':
-			return firstNum - secondNum;
-		case '*':
-			return firstNum * secondNum;
-	}
-};
-
-const getRandomOperand = (operands) => {
-	const randomOperand = Math.floor(Math.random() * operands.length);
-	return operands[randomOperand];
-};
-
 // all logic
 const getRandomNumber = (minRandomNum, maxRandomNum) =>
 	Math.floor(Math.random() * (maxRandomNum - minRandomNum + 1)) + minRandomNum;
@@ -44,6 +27,23 @@ const showCongratulations = (userName) => {
 
 const rounds = 3;
 
+// logic
+const calculator = (firstNum, operand, secondNum) => {
+	switch (operand) {
+		case '+':
+			return firstNum + secondNum;
+		case '-':
+			return firstNum - secondNum;
+		case '*':
+			return firstNum * secondNum;
+	}
+};
+
+const getRandomOperand = (operands) => {
+	const randomOperand = Math.floor(Math.random() * operands.length);
+	return operands[randomOperand];
+};
+
 // game
 const calcGame = () => {
 	console.log('What is the result of the expression?');
@@ -55,8 +55,8 @@ const calcGame = () => {
 		const operand = getRandomOperand(operands);
 
 		console.log(`Question: ${firstNum} ${operand} ${secondNum}`);
-		const correctAnswer = calculator(firstNum, operand, secondNum);
-		const userAnswer = Number(readlineSync.question('Your answer: '));
+		const correctAnswer = calculator(firstNum, operand, secondNum).toString();
+		const userAnswer = readlineSync.question('Your answer: ');
 
 		if (userAnswer !== correctAnswer) {
 			return showWrongAnswer(userAnswer, correctAnswer);

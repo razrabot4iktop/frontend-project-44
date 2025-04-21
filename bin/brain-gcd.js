@@ -7,15 +7,6 @@ console.log('Welcome to the Brain Games!');
 const userName = readlineSync.question('May I have your name? ');
 console.log(`Hello, ${userName}!`);
 
-// logic
-const getGCD = (firstNum, secondNum) => {
-	const min = Math.min(firstNum, secondNum);
-
-	for (let i = min; i >= 1; i--) {
-		if (firstNum % i === 0 && secondNum % i === 0) return i;
-	}
-};
-
 // all logic
 const getRandomNumber = (minRandomNum, maxRandomNum) =>
 	Math.floor(Math.random() * (maxRandomNum - minRandomNum + 1)) + minRandomNum;
@@ -36,6 +27,15 @@ const showCongratulations = (userName) => {
 
 const rounds = 3;
 
+// logic
+const getGCD = (firstNum, secondNum) => {
+	const min = Math.min(firstNum, secondNum);
+
+	for (let i = min; i >= 1; i--) {
+		if (firstNum % i === 0 && secondNum % i === 0) return i;
+	}
+};
+
 // game
 
 const gcdGame = () => {
@@ -45,8 +45,8 @@ const gcdGame = () => {
 		const secondNum = getRandomNumber(1, 100);
 
 		console.log(`Question: ${firstNum} ${secondNum}`);
-		const correctAnswer = getGCD(firstNum, secondNum);
-		const userAnswer = Number(readlineSync.question('Your answer: '));
+		const correctAnswer = getGCD(firstNum, secondNum).toString();
+		const userAnswer = readlineSync.question('Your answer: ');
 
 		if (userAnswer !== correctAnswer) {
 			return showWrongAnswer(userAnswer, correctAnswer);
