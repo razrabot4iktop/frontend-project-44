@@ -8,9 +8,23 @@ const userName = readlineSync.question('May I have your name? ');
 console.log(`Hello, ${userName}!`);
 
 // logic
-const isEven = (number) => number % 2 === 0;
 
-// all logic
+const calculator = (firstNum, operand, secondNum) => {
+	switch (operand) {
+		case '+':
+			return firstNum + secondNum;
+		case '-':
+			return firstNum - secondNum;
+		case '*':
+			return firstNum * secondNum;
+	}
+};
+
+const getRandomOperand = (operands) => {
+	const randomOperand = Math.floor(Math.random() * operands.length);
+	return operands[randomOperand];
+};
+
 const getRandomNumber = (minRandomNum, maxRandomNum) =>
 	Math.floor(Math.random() * (maxRandomNum - minRandomNum + 1)) + minRandomNum;
 
@@ -31,14 +45,18 @@ const showCongratulations = (userName) => {
 const rounds = 3;
 
 // game
-const evenGame = () => {
-	console.log('Answer "yes" if the number is even, otherwise answer "no".');
+const calcGame = () => {
+	console.log('What is the result of the expression?');
 	for (let i = 0; i < rounds; i++) {
-		const number = getRandomNumber(1, 100);
+		const firstNum = getRandomNumber(1, 100);
+		const secondNum = getRandomNumber(1, 100);
 
-		const correctAnswer = isEven(number) ? 'yes' : 'no';
-		console.log(`Question: ${number}`);
-		const userAnswer = readlineSync.question('Your answer: ');
+		const operands = ['+', '-', '*'];
+		const operand = getRandomOperand(operands);
+
+		const correctAnswer = calculator(firstNum, operand, secondNum);
+		console.log(`Question: ${firstNum} ${operand} ${secondNum}`);
+		const userAnswer = Number(readlineSync.question('Your answer: '));
 
 		if (userAnswer !== correctAnswer) {
 			return showWrongAnswer(userAnswer, correctAnswer);
@@ -47,4 +65,4 @@ const evenGame = () => {
 	}
 	return showCongratulations(userName);
 };
-evenGame();
+calcGame();
