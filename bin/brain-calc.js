@@ -8,7 +8,6 @@ const userName = readlineSync.question('May I have your name? ');
 console.log(`Hello, ${userName}!`);
 
 // logic
-
 const calculator = (firstNum, operand, secondNum) => {
 	switch (operand) {
 		case '+':
@@ -25,6 +24,7 @@ const getRandomOperand = (operands) => {
 	return operands[randomOperand];
 };
 
+// all logic
 const getRandomNumber = (minRandomNum, maxRandomNum) =>
 	Math.floor(Math.random() * (maxRandomNum - minRandomNum + 1)) + minRandomNum;
 
@@ -54,8 +54,8 @@ const calcGame = () => {
 		const operands = ['+', '-', '*'];
 		const operand = getRandomOperand(operands);
 
-		const correctAnswer = calculator(firstNum, operand, secondNum);
 		console.log(`Question: ${firstNum} ${operand} ${secondNum}`);
+		const correctAnswer = calculator(firstNum, operand, secondNum);
 		const userAnswer = Number(readlineSync.question('Your answer: '));
 
 		if (userAnswer !== correctAnswer) {

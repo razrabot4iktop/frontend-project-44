@@ -8,7 +8,13 @@ const userName = readlineSync.question('May I have your name? ');
 console.log(`Hello, ${userName}!`);
 
 // logic
-const isEven = (number) => number % 2 === 0;
+const getGCD = (firstNum, secondNum) => {
+	const min = Math.min(firstNum, secondNum);
+
+	for (let i = min; i >= 1; i--) {
+		if (firstNum % i === 0 && secondNum % i === 0) return i;
+	}
+};
 
 // all logic
 const getRandomNumber = (minRandomNum, maxRandomNum) =>
@@ -31,14 +37,16 @@ const showCongratulations = (userName) => {
 const rounds = 3;
 
 // game
-const evenGame = () => {
-	console.log('Answer "yes" if the number is even, otherwise answer "no".');
-	for (let i = 0; i < rounds; i++) {
-		const number = getRandomNumber(1, 100);
 
-		console.log(`Question: ${number}`);
-		const correctAnswer = isEven(number) ? 'yes' : 'no';
-		const userAnswer = readlineSync.question('Your answer: ');
+const gcdGame = () => {
+	console.log('Find the greatest common divisor of given numbers.');
+	for (let i = 0; i < rounds; i++) {
+		const firstNum = getRandomNumber(1, 100);
+		const secondNum = getRandomNumber(1, 100);
+
+		console.log(`Question: ${firstNum} ${secondNum}`);
+		const correctAnswer = getGCD(firstNum, secondNum);
+		const userAnswer = Number(readlineSync.question('Your answer: '));
 
 		if (userAnswer !== correctAnswer) {
 			return showWrongAnswer(userAnswer, correctAnswer);
@@ -47,4 +55,4 @@ const evenGame = () => {
 	}
 	return showCongratulations(userName);
 };
-evenGame();
+gcdGame();
