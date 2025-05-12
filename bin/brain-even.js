@@ -1,50 +1,33 @@
 #!/usr/bin/env node
-
 import readlineSync from 'readline-sync';
+import greetingMessage from '../src/cli.js';
 
-console.log('Welcome to the Brain Games!');
+function isEven(number) {
+  return number % 2 === 0;
+}
 
-const userName = readlineSync.question('May I have your name? ');
-console.log(`Hello, ${userName}!`);
+function braingame() {
+  const name = greetingMessage();
+  console.log('Answer "yes" if the number is even, otherwise answer "no".');
 
-// all logic
-const getRandomNumber = (minRandomNum, maxRandomNum) =>
-	Math.floor(Math.random() * (maxRandomNum - minRandomNum + 1)) + minRandomNum;
+  let correctpoint = 0;
+  while (correctpoint < 3) {
+    const randomNumber = Math.floor(Math.random() * 100) + 1;
+    console.log(`Question: ${randomNumber}`);
+    const userAnswer = readlineSync.question('Your answer: ');
+    const correctAnswer = isEven(randomNumber) ? 'yes' : 'no';
 
-const showWrongAnswer = (userAnswer, correctAnswer) => {
-	console.log(
-		`'${userAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`,
-	);
-};
+    if (userAnswer.length === correctAnswer.length) {
+      console.log('Correct!');
+      correctpoint += 1;
+    } else {
+      console.log(`'${userAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
+      console.log(`Let's try again, ${name}!`);
+      return;
+    }
+  }
 
-const showCorrectAnswer = () => {
-	console.log('Correct!');
-};
+  console.log(`Congratulations, ${name}!`);
+}
 
-const showCongratulations = (userName) => {
-	console.log(`Congratulations, ${userName}`);
-};
-
-const rounds = 3;
-
-// logic
-const isEven = (number) => number % 2 === 0;
-
-// game
-const evenGame = () => {
-	console.log('Answer "yes" if the number is even, otherwise answer "no".');
-	for (let i = 0; i < rounds; i++) {
-		const number = getRandomNumber(1, 100);
-
-		console.log(`Question: ${number}`);
-		const correctAnswer = isEven(number) ? 'yes' : 'no';
-		const userAnswer = readlineSync.question('Your answer: ');
-
-		if (userAnswer !== correctAnswer) {
-			return showWrongAnswer(userAnswer, correctAnswer);
-		}
-		showCorrectAnswer();
-	}
-	return showCongratulations(userName);
-};
-evenGame();
+braingame();

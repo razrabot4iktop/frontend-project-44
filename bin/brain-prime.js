@@ -1,60 +1,43 @@
 #!/usr/bin/env node
-
 import readlineSync from 'readline-sync';
+import greetingMessage from '../src/cli.js';
 
-console.log('Welcome to the Brain Games!');
+function isPrime(number) {
+  if (number <= 1) {
+    return false;
+  }
+  for (let i = 2; i <= Math.sqrt(number); i += 1) {
+    if (number % i === 0) {
+      return false;
+    }
+  }
+  return true;
+}
 
-const userName = readlineSync.question('May I have your name? ');
-console.log(`Hello, ${userName}!`);
+function brainPrime() {
+  const name = greetingMessage();
+  console.log('Answer "yes" if given number is prime. Otherwise answer "no".');
 
-// all logic
-const getRandomNumber = (minRandomNum, maxRandomNum) =>
-	Math.floor(Math.random() * (maxRandomNum - minRandomNum + 1)) + minRandomNum;
+  let correctAnswersCount = 0;
+  const totalQuestions = 3;
 
-const showWrongAnswer = (userAnswer, correctAnswer) => {
-	console.log(
-		`'${userAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`,
-	);
-};
+  while (correctAnswersCount < totalQuestions) {
+    const randomNumber = Math.floor(Math.random() * 100) + 1;
+    const correctAnswer = isPrime(randomNumber) ? 'yes' : 'no';
 
-const showCorrectAnswer = () => {
-	console.log('Correct!');
-};
+    const userAnswer = readlineSync.question(`Question: ${randomNumber}\nYour answer:`);
+    const userAnswerLower = userAnswer.toLowerCase();
+    if (userAnswerLower === correctAnswer) {
+      console.log('Correct!');
+      correctAnswersCount += 1;
+    } else {
+      console.log(`'${userAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
+      console.log(`Let's try again, ${name}!`);
+      return;
+    }
+  }
 
-const showCongratulations = (userName) => {
-	console.log(`Congratulations, ${userName}`);
-};
+  console.log(`Congratulations, ${name}!`);
+}
 
-const rounds = 3;
-
-// logic
-
-const isPrime = (number) => {
-	if (number < 2) return false;
-
-	for (let i = 2; i <= number / 2; i++) {
-		if (number % i === 0) {
-			return false;
-		}
-	}
-	return true;
-};
-
-// game
-const primeGame = () => {
-	console.log('Answer "yes" if given number is prime. Otherwise answer "no".');
-	for (let i = 0; i < rounds; i++) {
-		const number = getRandomNumber(1, 100);
-
-		console.log(`Question: ${number}`);
-		const correctAnswer = isPrime(number) ? 'yes' : 'no';
-		const userAnswer = readlineSync.question('Your answer: ');
-
-		if (userAnswer !== correctAnswer) {
-			return showWrongAnswer(userAnswer, correctAnswer);
-		}
-		showCorrectAnswer();
-	}
-	return showCongratulations(userName);
-};
-primeGame();
+brainPrime();

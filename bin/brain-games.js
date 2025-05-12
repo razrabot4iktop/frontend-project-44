@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import greetingMessage from '../src/cli.js';
 
-import greetings from '../src/cli.js';
-greetings();
+const name = greetingMessage();
+console.log(`${name}`);
